@@ -49,7 +49,11 @@ export function resetEnv() {
 
 export function isR2Ready(e: Env = env()) {
   return Boolean(
-    e.R2_ACCOUNT_ID && e.R2_ACCESS_KEY_ID && e.R2_SECRET_ACCESS_KEY && e.R2_BUCKET && e.R2_PUBLIC_URL,
+    e.R2_ACCOUNT_ID &&
+    e.R2_ACCESS_KEY_ID &&
+    e.R2_SECRET_ACCESS_KEY &&
+    e.R2_BUCKET &&
+    e.R2_PUBLIC_URL,
   )
 }
 

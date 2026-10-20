@@ -35,4 +35,7 @@ export const onError: ErrorHandler<AppEnv> = (err, c) => {
 }
 
 export const onNotFound: NotFoundHandler<AppEnv> = (c) =>
-  c.json({ error: { code: 'NOT_FOUND', message: `Route ${c.req.method} ${c.req.path} not found` } }, 404)
+  c.json(
+    { error: { code: 'NOT_FOUND', message: `Route ${c.req.method} ${c.req.path} not found` } },
+    404,
+  )

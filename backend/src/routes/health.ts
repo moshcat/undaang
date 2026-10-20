@@ -17,5 +17,8 @@ const route = createRoute({
 })
 
 export const healthRoutes = createRouter().openapi(route, (c) =>
-  c.json({ data: { status: 'ok' as const, db: isDbUp() ? ('up' as const) : ('down' as const) } }, 200),
+  c.json(
+    { data: { status: 'ok' as const, db: isDbUp() ? ('up' as const) : ('down' as const) } },
+    200,
+  ),
 )
