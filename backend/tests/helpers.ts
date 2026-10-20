@@ -4,6 +4,8 @@ import { createApp } from '../src/app'
 export type TestApp = ReturnType<typeof createApp>
 
 export async function resetDb() {
+  // Unique indexes must exist before tests that rely on duplicate-key errors.
+  await Promise.all(Object.values(mongoose.models).map((m) => m.init()))
   const collections = await mongoose.connection.db!.collections()
   await Promise.all(collections.map((c) => c.deleteMany({})))
 }
