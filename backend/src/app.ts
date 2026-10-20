@@ -7,6 +7,7 @@ import { onError, onNotFound } from './middlewares/error'
 import { createRouter } from './lib/router'
 import { authRoutes } from './routes/auth'
 import { healthRoutes } from './routes/health'
+import { invitationRoutes } from './routes/invitations'
 import { adminThemeRoutes, themeRoutes } from './routes/themes'
 
 export function createApp() {
@@ -27,6 +28,7 @@ export function createApp() {
   app.route('/health', healthRoutes)
   app.route('/api/v1/auth', authRoutes())
   app.route('/api/v1/themes', themeRoutes())
+  app.route('/api/v1/invitations', invitationRoutes())
   app.route('/api/v1/admin/themes', adminThemeRoutes())
 
   app.openAPIRegistry.registerComponent('securitySchemes', 'bearerAuth', {

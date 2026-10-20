@@ -1,3 +1,5 @@
+import type { InvitationDoc } from './models/invitation'
+
 export type Role = 'admin' | 'user'
 
 export type AuthUser = {
@@ -8,5 +10,6 @@ export type AuthUser = {
 export type AppEnv = {
   Variables: {
     user: AuthUser
+    invitation: InvitationDoc
   }
 }
