@@ -41,7 +41,7 @@ describe('POST /invitations/:id/guests', () => {
     expect(guest.share_text).toContain('Kepada Yth. Budi Santoso,')
     expect(guest.share_text).toContain(guest.personal_url)
     expect(guest.share_text).toEndWith('Raka & Sinta')
-    expect(guest.share_text).not.toContain('—')
+    expect(guest.share_text).not.toContain('\u2014')
   })
 
   it('answers 402 once the free quota of 50 is used', async () => {
