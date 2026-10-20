@@ -5,6 +5,7 @@ import { secureHeaders } from 'hono/secure-headers'
 import { env } from './config/env'
 import { onError, onNotFound } from './middlewares/error'
 import { createRouter } from './lib/router'
+import { adminRoutes } from './routes/admin'
 import { authRoutes } from './routes/auth'
 import { guestRoutes } from './routes/guests'
 import { healthRoutes } from './routes/health'
@@ -44,6 +45,7 @@ export function createApp() {
   app.route('/api/v1/orders', orderRoutes())
   app.route('/api/v1/payments', paymentRoutes())
   app.route('/api/v1/admin/themes', adminThemeRoutes())
+  app.route('/api/v1/admin', adminRoutes())
 
   app.openAPIRegistry.registerComponent('securitySchemes', 'bearerAuth', {
     type: 'http',
