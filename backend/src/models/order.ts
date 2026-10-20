@@ -20,6 +20,7 @@ const orderSchema = new Schema(
           {
             received_at: { type: Date, required: true },
             status: { type: String, required: true },
+            source: { type: String, enum: ['webhook', 'status_check'], default: 'webhook' },
             raw: { type: Schema.Types.Mixed },
           },
           { _id: false },

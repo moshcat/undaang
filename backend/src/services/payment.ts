@@ -1,40 +1,36 @@
 import mongoose from 'mongoose'
 import { badRequest, notFound, unauthorized } from '../lib/errors'
-import { InvitationModel, OrderModel } from '../models'
+import { InvitationModel, OrderModel, type OrderDoc } from '../models'
 import type { Tier } from '../models/theme'
 import { verifyNotification } from './doku'
 import { extendExpiry, planRank } from './plan'
 
-type DokuNotification = {
-  order?: { invoice_number?: string; amount?: number | string }
+// Both the HTTP notification and the Check Status response carry these fields.
+type DokuResult = {
+  order?: { invoice_number?: string; amount?: number | string; status?: string }
   transaction?: { status?: string; date?: string }
   channel?: { id?: string }
 }
 
+export type PaymentSource = 'webhook' | 'status_check'
 export type NotificationResult = 'activated' | 'already_paid' | 'expired' | 'ignored'
 
-export async function handleDokuNotification(
-  headers: Headers,
-  rawBody: string,
-  target: string,
+function transactionStatus(result: DokuResult) {
+  const status = result.transaction?.status ?? 'UNKNOWN'
+  // Check Status reports an abandoned checkout on the order, not on the transaction.
+  if (status !== 'SUCCESS' && result.order?.status === 'ORDER_EXPIRED') return 'EXPIRED'
+  return status
+}
+
+export async function applyDokuResult(
+  order: OrderDoc,
+  result: DokuResult,
+  source: PaymentSource,
 ): Promise<NotificationResult> {
-  if (!verifyNotification(headers, rawBody, target)) throw unauthorized('Invalid signature')
+  const status = transactionStatus(result)
+  const entry = { received_at: new Date(), status, source, raw: result }
 
-  let payload: DokuNotification
-  try {
-    payload = JSON.parse(rawBody) as DokuNotification
-  } catch {
-    throw badRequest('Body is not valid JSON')
-  }
-  const invoice = payload.order?.invoice_number
-  const status = payload.transaction?.status ?? 'UNKNOWN'
-  if (!invoice) throw badRequest('order.invoice_number is missing')
-
-  const order = await OrderModel.findOne({ invoice_number: invoice })
-  if (!order) throw notFound('Order not found')
-  const entry = { received_at: new Date(), status, raw: payload }
-
-  if (Math.round(Number(payload.order?.amount)) !== order.amount) {
+  if (Math.round(Number(result.order?.amount)) !== order.amount) {
     await OrderModel.updateOne(
       { _id: order._id },
       { $push: { notifications: { ...entry, status: `${status}_AMOUNT_MISMATCH` } } },
@@ -51,21 +47,24 @@ export async function handleDokuNotification(
   }
   // Checkout lets the customer try another method after a FAILED attempt, so the order stays open.
   if (status !== 'SUCCESS') {
-    await OrderModel.updateOne({ _id: order._id }, { $push: { notifications: entry } })
+    // A status check runs on every poll of a pending order; logging each one adds nothing.
+    if (source === 'webhook') {
+      await OrderModel.updateOne({ _id: order._id }, { $push: { notifications: entry } })
+    }
     return 'ignored'
   }
 
-  let result: NotificationResult = 'already_paid'
+  let outcome: NotificationResult = 'already_paid'
   await mongoose.connection.transaction(async (session) => {
-    result = 'already_paid'
-    const paidAt = payload.transaction?.date ? new Date(payload.transaction.date) : new Date()
+    outcome = 'already_paid'
+    const paidAt = result.transaction?.date ? new Date(result.transaction.date) : new Date()
     // The status filter makes a repeated or concurrent notification a no-op.
     const paid = await OrderModel.findOneAndUpdate(
       { _id: order._id, status: { $ne: 'paid' } },
       {
         status: 'paid',
         paid_at: Number.isNaN(paidAt.getTime()) ? new Date() : paidAt,
-        payment_method: payload.channel?.id ?? null,
+        payment_method: result.channel?.id || null,
         $push: { notifications: entry },
       },
       { session, returnDocument: 'after' },
@@ -84,7 +83,28 @@ export async function handleDokuNotification(
     if (planRank(bought) > planRank(invitation.plan as Tier)) invitation.plan = bought
     invitation.plan_expires_at = extendExpiry(invitation.plan_expires_at, bought)
     await invitation.save({ session })
-    result = 'activated'
+    outcome = 'activated'
   })
-  return result
+  return outcome
+}
+
+export async function handleDokuNotification(
+  headers: Headers,
+  rawBody: string,
+  target: string,
+): Promise<NotificationResult> {
+  if (!verifyNotification(headers, rawBody, target)) throw unauthorized('Invalid signature')
+
+  let payload: DokuResult
+  try {
+    payload = JSON.parse(rawBody) as DokuResult
+  } catch {
+    throw badRequest('Body is not valid JSON')
+  }
+  const invoice = payload.order?.invoice_number
+  if (!invoice) throw badRequest('order.invoice_number is missing')
+
+  const order = await OrderModel.findOne({ invoice_number: invoice })
+  if (!order) throw notFound('Order not found')
+  return applyDokuResult(order, payload, 'webhook')
 }

@@ -10,22 +10,24 @@ export type SignatureParts = {
   requestId: string
   timestamp: string
   target: string
-  body: string
+  // GET requests have no body and no Digest line.
+  body?: string
 }
 
 export function digest(body: string) {
   return createHash('sha256').update(body, 'utf8').digest('base64')
 }
 
-// DOKU non-SNAP signature: HMAC-SHA256 over five "Name:value" lines, no trailing newline.
+// DOKU non-SNAP signature: HMAC-SHA256 over "Name:value" lines, no trailing newline.
 export function signature(parts: SignatureParts, secretKey: string) {
-  const component = [
+  const lines = [
     `Client-Id:${parts.clientId}`,
     `Request-Id:${parts.requestId}`,
     `Request-Timestamp:${parts.timestamp}`,
     `Request-Target:${parts.target}`,
-    `Digest:${digest(parts.body)}`,
-  ].join('\n')
+  ]
+  if (parts.body !== undefined) lines.push(`Digest:${digest(parts.body)}`)
+  const component = lines.join('\n')
   return `HMACSHA256=${createHmac('sha256', secretKey).update(component).digest('base64')}`
 }
 
