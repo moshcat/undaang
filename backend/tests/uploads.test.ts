@@ -30,6 +30,23 @@ describe('POST /api/v1/uploads/presign', () => {
     expect(public_url).toEndWith('.jpg')
   })
 
+  it('binds Content-Type and Content-Length to the signature', async () => {
+    const { user, token } = await createUser()
+    const invitation = await createInvitation(user.id)
+    const res = await api.post(url, {
+      token,
+      body: {
+        invitation_id: invitation.id,
+        kind: 'gallery',
+        content_type: 'image/webp',
+        size: 12_345,
+      },
+    })
+    const signed = new URL(res.json.data.upload_url).searchParams.get('X-Amz-SignedHeaders')
+    expect(signed?.split(';')).toEqual(expect.arrayContaining(['content-length', 'content-type']))
+    expect(res.json.data.headers).toEqual({ 'Content-Type': 'image/webp' })
+  })
+
   it('rejects the wrong file type or an oversized file with 400', async () => {
     const { user, token } = await createUser()
     const invitation = await createInvitation(user.id)
