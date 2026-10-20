@@ -40,7 +40,7 @@ const presign = createRoute({
   tags: ['Uploads'],
   summary: 'Get a presigned URL to upload a photo or song to R2',
   description:
-    'PUT the file to upload_url with the same Content-Type, then save public_url in the invitation.',
+    'PUT the file to upload_url with the same Content-Type. size must be the exact byte size of the file, because Content-Type and Content-Length are part of the signature. Then save public_url in the invitation.',
   security: [{ bearerAuth: [] }],
   middleware: [requireAuth],
   request: { body: json(presignBody, 'File to upload') },

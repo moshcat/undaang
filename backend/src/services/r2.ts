@@ -22,7 +22,13 @@ export async function presignPut(key: string, contentType: string, size: number)
     ContentType: contentType,
     ContentLength: size,
   })
-  const uploadUrl = await getSignedUrl(client, command, { expiresIn: UPLOAD_URL_TTL_SECONDS })
+  // Without these the URL accepts any type and size, e.g. an HTML page served from the bucket.
+  const bound = new Set(['content-type', 'content-length'])
+  const uploadUrl = await getSignedUrl(client, command, {
+    expiresIn: UPLOAD_URL_TTL_SECONDS,
+    signableHeaders: bound,
+    unhoistableHeaders: bound,
+  })
   return {
     upload_url: uploadUrl,
     public_url: `${(config.R2_PUBLIC_URL as string).replace(/\/$/, '')}/${key}`,
