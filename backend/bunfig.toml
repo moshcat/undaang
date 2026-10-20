@@ -1,2 +1,6 @@
 # bson 7.3 crashes on import under Bun 1.3; the shim must run before any module loads it.
 preload = ["./src/shims/bun-v8.ts"]
+
+[test]
+preload = ["./src/shims/bun-v8.ts", "./tests/setup.ts"]
+timeout = 30000
