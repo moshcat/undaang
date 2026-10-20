@@ -3,9 +3,10 @@ import { getConnInfo } from 'hono/bun'
 import { rateLimiter } from 'hono-rate-limiter'
 import type { AppEnv } from '../types'
 
-// Railway and Render put the client address in X-Forwarded-For; the socket address is the proxy.
+// Railway and Render sit in front of the app and append the real client address to
+// X-Forwarded-For. Earlier entries come from the client and can be forged, so the last one is used.
 export function clientIp(c: Context) {
-  const forwarded = c.req.header('x-forwarded-for')?.split(',')[0]?.trim()
+  const forwarded = c.req.header('x-forwarded-for')?.split(',').at(-1)?.trim()
   if (forwarded) return forwarded
   try {
     return getConnInfo(c).remote.address ?? 'unknown'
