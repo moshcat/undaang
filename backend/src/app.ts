@@ -10,6 +10,7 @@ import { guestRoutes } from './routes/guests'
 import { healthRoutes } from './routes/health'
 import { invitationRoutes } from './routes/invitations'
 import { orderRoutes } from './routes/orders'
+import { paymentRoutes } from './routes/payments'
 import { publicRoutes } from './routes/public'
 import { rsvpRoutes } from './routes/rsvps'
 import { statsRoutes } from './routes/stats'
@@ -41,6 +42,7 @@ export function createApp() {
   app.route('/api/v1/uploads', uploadRoutes())
   app.route('/api/v1/public', publicRoutes())
   app.route('/api/v1/orders', orderRoutes())
+  app.route('/api/v1/payments', paymentRoutes())
   app.route('/api/v1/admin/themes', adminThemeRoutes())
 
   app.openAPIRegistry.registerComponent('securitySchemes', 'bearerAuth', {

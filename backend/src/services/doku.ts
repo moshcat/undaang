@@ -1,4 +1,4 @@
-import { createHash, createHmac } from 'node:crypto'
+import { createHash, createHmac, timingSafeEqual } from 'node:crypto'
 import { env, isDokuReady } from '../config/env'
 import { badGateway, serviceUnavailable } from '../lib/errors'
 
@@ -103,4 +103,16 @@ export async function createCheckout(input: CheckoutInput) {
     throw badGateway('The payment gateway did not return a payment page')
   }
   return { paymentUrl: url, requestId }
+}
+
+export function verifyNotification(headers: Headers, body: string, target: string) {
+  const { clientId, secretKey } = credentials()
+  const received = headers.get('signature')
+  const requestId = headers.get('request-id')
+  const timestamp = headers.get('request-timestamp')
+  if (!received || !requestId || !timestamp || headers.get('client-id') !== clientId) return false
+  const expected = signature({ clientId, requestId, timestamp, target, body }, secretKey)
+  const a = Buffer.from(received)
+  const b = Buffer.from(expected)
+  return a.length === b.length && timingSafeEqual(a, b)
 }
