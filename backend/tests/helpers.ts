@@ -45,3 +45,19 @@ export function client(app: TestApp) {
     delete: (path: string, o?: RequestOptions) => send('DELETE', path, o),
   }
 }
+
+let userCounter = 0
+
+export async function createUser(options: { role?: 'admin' | 'user'; email?: string } = {}) {
+  const { UserModel } = await import('../src/models')
+  const { signToken } = await import('../src/lib/jwt')
+  userCounter += 1
+  const user = await UserModel.create({
+    name: `User ${userCounter}`,
+    email: options.email ?? `user${userCounter}-${Date.now()}@mail.test`,
+    password: await Bun.password.hash('password123', { algorithm: 'bcrypt', cost: 4 }),
+    role: options.role ?? 'user',
+  })
+  const token = await signToken({ id: user.id, role: user.role as 'admin' | 'user' })
+  return { user, token }
+}
