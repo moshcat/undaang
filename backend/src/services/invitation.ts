@@ -1,12 +1,28 @@
-import mongoose from 'mongoose'
-import { badRequest, conflict, forbidden, paymentRequired, unprocessable } from '../lib/errors'
+import mongoose, { isValidObjectId } from 'mongoose'
+import {
+  badRequest,
+  conflict,
+  forbidden,
+  notFound,
+  paymentRequired,
+  unprocessable,
+} from '../lib/errors'
 import { GuestModel, InvitationModel, RsvpModel, ThemeModel, type InvitationDoc } from '../models'
 import type { Tier } from '../models/theme'
 import type { z } from '@hono/zod-openapi'
 import type { updateInvitationBody } from '../schemas/invitation'
+import type { AuthUser } from '../types'
 import { assertFeature, assertGalleryLimit, assertThemeAllowed, isExpired, rules } from './plan'
 
 type UpdateBody = z.infer<typeof updateInvitationBody>
+
+export async function findOwnedInvitation(user: AuthUser, id: string | undefined) {
+  if (!id || !isValidObjectId(id)) throw notFound('Invitation not found')
+  const invitation = await InvitationModel.findById(id)
+  if (!invitation) throw notFound('Invitation not found')
+  if (user.role !== 'admin' && !invitation.owner_id.equals(user.id)) throw forbidden()
+  return invitation
+}
 
 export function serializeInvitation(invitation: InvitationDoc) {
   const plan = rules(invitation.plan as Tier)
