@@ -61,3 +61,41 @@ export async function createUser(options: { role?: 'admin' | 'user'; email?: str
   const token = await signToken({ id: user.id, role: user.role as 'admin' | 'user' })
   return { user, token }
 }
+
+let themeCounter = 0
+
+export async function createTheme(tier: 'free' | 'basic' | 'premium' = 'free') {
+  const { ThemeModel } = await import('../src/models')
+  themeCounter += 1
+  return ThemeModel.create({
+    code: `theme-${tier}-${themeCounter}`,
+    name: `Theme ${themeCounter}`,
+    tier,
+  })
+}
+
+let invitationCounter = 0
+
+export async function createInvitation(
+  ownerId: string,
+  options: {
+    plan?: 'free' | 'basic' | 'premium'
+    status?: 'draft' | 'published' | 'suspended'
+    expiresAt?: Date
+    themeTier?: 'free' | 'basic' | 'premium'
+  } = {},
+) {
+  const { InvitationModel } = await import('../src/models')
+  invitationCounter += 1
+  const theme = await createTheme(options.themeTier ?? 'free')
+  return InvitationModel.create({
+    owner_id: ownerId,
+    slug: `pasangan-${invitationCounter}-${Date.now()}`,
+    theme_id: theme._id,
+    plan: options.plan ?? 'free',
+    status: options.status ?? 'draft',
+    plan_expires_at: options.expiresAt ?? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+    couple: { groom: { name: 'Raka' }, bride: { name: 'Sinta' } },
+    events: [{ type: 'akad', start_at: new Date('2026-12-12T02:00:00Z'), venue: 'Masjid Raya' }],
+  })
+}
