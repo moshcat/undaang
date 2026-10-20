@@ -5,6 +5,7 @@ import { secureHeaders } from 'hono/secure-headers'
 import { env } from './config/env'
 import { onError, onNotFound } from './middlewares/error'
 import { createRouter } from './lib/router'
+import { authRoutes } from './routes/auth'
 import { healthRoutes } from './routes/health'
 
 export function createApp() {
@@ -23,6 +24,7 @@ export function createApp() {
   )
 
   app.route('/health', healthRoutes)
+  app.route('/api/v1/auth', authRoutes())
 
   app.openAPIRegistry.registerComponent('securitySchemes', 'bearerAuth', {
     type: 'http',
