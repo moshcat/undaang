@@ -1,0 +1,24 @@
+import { OpenAPIHono } from '@hono/zod-openapi'
+import type { AppEnv } from '../types'
+
+export function createRouter() {
+  return new OpenAPIHono<AppEnv>({
+    defaultHook: (result, c) => {
+      if (!result.success) {
+        return c.json(
+          {
+            error: {
+              code: 'VALIDATION_ERROR',
+              message: 'Request validation failed',
+              details: result.error.issues.map((issue) => ({
+                path: issue.path.join('.'),
+                message: issue.message,
+              })),
+            },
+          },
+          400,
+        )
+      }
+    },
+  })
+}
