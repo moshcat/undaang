@@ -14,6 +14,7 @@ import {
 } from '../schemas/common'
 import { findOwnedInvitation } from '../services/invitation'
 import { placeOrder } from '../services/order'
+import { syncOrderWithDoku } from '../services/payment'
 
 const security = [{ bearerAuth: [] }]
 
@@ -77,6 +78,8 @@ const detail = createRoute({
   path: '/{invoice}',
   tags: ['Orders'],
   summary: 'Order status, used by the page after payment',
+  description:
+    'While the order is pending, this also asks DOKU for the payment status (at most every 15 seconds), so the plan activates even when the HTTP notification is lost.',
   security,
   middleware: [requireAuth],
   request: { params: z.object({ invoice: z.string().max(64) }) },
@@ -122,6 +125,6 @@ export function orderRoutes() {
         ...(user.role !== 'admin' && { user_id: user.id }),
       })
       if (!order) throw notFound('Order not found')
-      return c.json({ data: serializeOrder(order) }, 200)
+      return c.json({ data: serializeOrder(await syncOrderWithDoku(order)) }, 200)
     })
 }

@@ -1,8 +1,9 @@
 import mongoose from 'mongoose'
-import { badRequest, notFound, unauthorized } from '../lib/errors'
+import { AppError, badRequest, notFound, unauthorized } from '../lib/errors'
 import { InvitationModel, OrderModel, type OrderDoc } from '../models'
 import type { Tier } from '../models/theme'
-import { verifyNotification } from './doku'
+import { isDokuReady } from '../config/env'
+import { checkStatus, verifyNotification } from './doku'
 import { extendExpiry, planRank } from './plan'
 
 // Both the HTTP notification and the Check Status response carry these fields.
@@ -107,4 +108,36 @@ export async function handleDokuNotification(
   const order = await OrderModel.findOne({ invoice_number: invoice })
   if (!order) throw notFound('Order not found')
   return applyDokuResult(order, payload, 'webhook')
+}
+
+// The page after payment polls the order; one DOKU call per window is enough.
+const STATUS_CHECK_INTERVAL_MS = 15_000
+
+// Fallback for when the HTTP notification never arrives. Asks DOKU server to server, so the
+// plan still only activates on DOKU's word, never on a browser redirect.
+export async function syncOrderWithDoku(order: OrderDoc, now = new Date()): Promise<OrderDoc> {
+  if (order.status !== 'pending' || !isDokuReady()) return order
+  const since = new Date(now.getTime() - STATUS_CHECK_INTERVAL_MS)
+  // Claiming the slot atomically keeps parallel polls from all calling DOKU.
+  const claimed = await OrderModel.updateOne(
+    {
+      _id: order._id,
+      status: 'pending',
+      $or: [{ status_checked_at: null }, { status_checked_at: { $lte: since } }],
+    },
+    { status_checked_at: now },
+  )
+  if (claimed.modifiedCount === 0) return order
+
+  try {
+    const result = (await checkStatus(order.invoice_number)) as DokuResult
+    if (result.order?.invoice_number !== order.invoice_number) return order
+    await applyDokuResult(order, result, 'status_check')
+  } catch (err) {
+    // The caller still gets the stored order; the next poll tries again.
+    const message = err instanceof AppError ? err.message : String(err)
+    console.error(`DOKU status sync failed for ${order.invoice_number}: ${message}`)
+    return order
+  }
+  return (await OrderModel.findById(order._id)) ?? order
 }

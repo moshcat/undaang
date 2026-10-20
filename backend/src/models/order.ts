@@ -14,6 +14,7 @@ const orderSchema = new Schema(
     payment_url: { type: String, default: null },
     payment_method: { type: String, default: null },
     paid_at: { type: Date, default: null },
+    status_checked_at: { type: Date, default: null },
     notifications: {
       type: [
         new Schema(

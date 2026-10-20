@@ -107,6 +107,34 @@ export async function createCheckout(input: CheckoutInput) {
   return { paymentUrl: url, requestId }
 }
 
+// The Check Status response has the same order, transaction and channel fields as a notification.
+export async function checkStatus(invoiceNumber: string): Promise<unknown> {
+  const { clientId, secretKey, baseUrl } = credentials()
+  const target = `/orders/v1/status/${encodeURIComponent(invoiceNumber)}`
+  const requestId = crypto.randomUUID()
+  const timestamp = dokuTimestamp()
+  let res: Response
+  try {
+    res = await fetch(`${baseUrl}${target}`, {
+      headers: {
+        'Client-Id': clientId,
+        'Request-Id': requestId,
+        'Request-Timestamp': timestamp,
+        Signature: signature({ clientId, requestId, timestamp, target }, secretKey),
+      },
+      signal: AbortSignal.timeout(10_000),
+    })
+  } catch (err) {
+    console.error('DOKU status request failed', err)
+    throw badGateway('Could not reach the payment gateway')
+  }
+  if (!res.ok) {
+    console.error('DOKU status rejected', res.status)
+    throw badGateway('The payment gateway did not return the order status')
+  }
+  return res.json()
+}
+
 export function verifyNotification(headers: Headers, body: string, target: string) {
   const { clientId, secretKey } = credentials()
   const received = headers.get('signature')
