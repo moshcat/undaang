@@ -1,4 +1,5 @@
 import { z } from '@hono/zod-openapi'
+import { stripHtml } from '../lib/sanitize'
 
 export const objectId = z
   .string()
@@ -63,3 +64,13 @@ export const hexColor = z
   .openapi({ example: '#8a9a5b' })
 
 export const tier = z.enum(['free', 'basic', 'premium'])
+
+export function plainText(max: number) {
+  return z
+    .string()
+    .max(max * 2)
+    .transform(stripHtml)
+    .pipe(z.string().max(max))
+}
+
+export const httpUrl = z.url({ protocol: /^https?$/, error: 'Must be an http or https URL' })
