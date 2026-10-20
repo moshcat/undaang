@@ -56,3 +56,10 @@ export const errors = {
   502: { description: 'Payment gateway error' },
   503: { description: 'External service not configured' },
 } as const
+
+export const hexColor = z
+  .string()
+  .regex(/^#[0-9a-f]{6}$/i, 'Must be a hex color like #8a9a5b')
+  .openapi({ example: '#8a9a5b' })
+
+export const tier = z.enum(['free', 'basic', 'premium'])
