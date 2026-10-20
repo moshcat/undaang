@@ -9,6 +9,7 @@ import { authRoutes } from './routes/auth'
 import { healthRoutes } from './routes/health'
 import { invitationRoutes } from './routes/invitations'
 import { adminThemeRoutes, themeRoutes } from './routes/themes'
+import { uploadRoutes } from './routes/uploads'
 
 export function createApp() {
   const config = env()
@@ -29,6 +30,7 @@ export function createApp() {
   app.route('/api/v1/auth', authRoutes())
   app.route('/api/v1/themes', themeRoutes())
   app.route('/api/v1/invitations', invitationRoutes())
+  app.route('/api/v1/uploads', uploadRoutes())
   app.route('/api/v1/admin/themes', adminThemeRoutes())
 
   app.openAPIRegistry.registerComponent('securitySchemes', 'bearerAuth', {
