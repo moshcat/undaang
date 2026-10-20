@@ -129,3 +129,15 @@ describe('GET /api/v1/auth/me', () => {
     expect((await api.get('/api/v1/auth/me', { token })).status).toBe(401)
   })
 })
+
+describe('rate limit key', () => {
+  it('ignores forged X-Forwarded-For entries in front of the proxy one', async () => {
+    const attempt = (forged: string) =>
+      api.post('/api/v1/auth/login', {
+        body: { email: 'siapa@mail.test', password: 'salah12345' },
+        headers: { 'x-forwarded-for': `${forged}, 198.51.100.7` },
+      })
+    for (let i = 0; i < 10; i++) expect((await attempt(`10.9.9.${i}`)).status).toBe(401)
+    expect((await attempt('10.9.9.99')).status).toBe(429)
+  })
+})
