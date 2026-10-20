@@ -10,6 +10,7 @@ import { guestRoutes } from './routes/guests'
 import { healthRoutes } from './routes/health'
 import { invitationRoutes } from './routes/invitations'
 import { publicRoutes } from './routes/public'
+import { rsvpRoutes } from './routes/rsvps'
 import { adminThemeRoutes, themeRoutes } from './routes/themes'
 import { uploadRoutes } from './routes/uploads'
 
@@ -33,6 +34,7 @@ export function createApp() {
   app.route('/api/v1/themes', themeRoutes())
   app.route('/api/v1/invitations', invitationRoutes())
   app.route('/api/v1/invitations', guestRoutes())
+  app.route('/api/v1/invitations', rsvpRoutes())
   app.route('/api/v1/uploads', uploadRoutes())
   app.route('/api/v1/public', publicRoutes())
   app.route('/api/v1/admin/themes', adminThemeRoutes())
