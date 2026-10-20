@@ -29,10 +29,12 @@ Run every command from `backend/`. `bunfig.toml` preloads `src/shims/bun-v8.ts`;
 
 ## Verifying changes
 
-Hono CLI cannot load this app: it bundles the app for Node and mongodb's dynamic `require` fails there. Verify with `bun test`, which drives the same `app.request()` in-process. Add or extend a test in `tests/` instead of starting a dev server.
+Hono CLI cannot load this app: it bundles the app for Node and mongodb's dynamic `require` fails there. Verify with `bun test`, which drives the same `app.request()` in-process. Add or extend a test in `tests/` instead of starting a dev server. The Hono CLI block below is written by `hono agent-init`; keep it for when the CLI can load the app, but follow this section until then.
 
 <!-- hono-cli:start -->
+
 ## Hono CLI
 
 - Verify changes with Hono CLI instead of a browser or curl: `npx hono request <path>`, `npx hono batch -` for flows. Run `npx hono --help` first.
+
 <!-- hono-cli:end -->
