@@ -142,7 +142,7 @@ describe('POST /invitations/:id/guests/import', () => {
   it('imports a CSV on the premium plan', async () => {
     const { user, token } = await createUser()
     const invitation = await createInvitation(user.id, { plan: 'premium' })
-    const csv = '﻿Name,Phone,Group,Pax_Quota\nBudi,08123456789,keluarga,3\nCitra,,teman,\n'
+    const csv = '\uFEFFName,Phone,Group,Pax_Quota\nBudi,08123456789,keluarga,3\nCitra,,teman,\n'
     const res = await api.post(`${guestsUrl(invitation.id)}/import`, { token, body: csvForm(csv) })
     expect(res.status).toBe(201)
     expect(res.json.data.imported).toBe(2)
