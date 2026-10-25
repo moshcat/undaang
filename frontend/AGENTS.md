@@ -7,6 +7,7 @@ undaang adalah platform undangan pernikahan digital freemium dan merupakan proye
 | Dokumen | Isi |
 |---|---|
 | `docs/BRIEF.md` | spesifikasi tiap halaman beserta acceptance criteria |
+| `docs/DESIGN.md` | mockup Stitch tiap halaman + pemetaan ke komponen shadcn-vue |
 | `docs/API.md` | kontrak API backend versi frontend |
 | `docs/TASKS.md` | tiket berurutan + prompt siap tempel |
 | `docs/WALKTHROUGH.md` | panduan setup dan cara kerja untuk pemula |

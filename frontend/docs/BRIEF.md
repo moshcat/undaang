@@ -61,8 +61,8 @@ Bagian ini sudah jadi dan tidak perlu dibuat ulang:
 
 **UI wajib shadcn-vue.** Aturan lengkapnya di `AGENTS.md`. Ringkasnya:
 
-- Saat ini tampilan memakai token default shadcn. Desain final akan dibuat lead/UI dan dipasang dengan mengganti token CSS di `src/style.css`.
-- Selama itu, bangun halaman yang **rapi dan netral**:
+- **Mockup setiap halaman ada di `DESIGN.md`** (project Stitch + tabel elemen → komponen shadcn-vue). Design system-nya diekstrak dari token di `src/style.css`, ditambah token `success` dan `warning` untuk status RSVP dan pembayaran.
+- Gaya dasarnya **rapi dan netral**:
   - jarak antarbagian `gap-6`;
   - kartu memakai `Card`;
   - judul memakai `PageHeader`;

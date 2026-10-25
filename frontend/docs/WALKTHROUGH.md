@@ -221,7 +221,7 @@ Setelah dipasang, rapikan block sesuai aturan 4a di `AGENTS.md`:
 
 Contoh hasil yang sudah dirapikan ada di `src/components/dashboard/` (dari `dashboard-01`) dan `src/views/auth/` (dari `login-02` dan `signup-02`).
 
-Kalau kamu mendapat mockup dari Stitch atau Figma, atau contoh kode React (`className=`, `@radix-ui`, `lucide-react`), **jangan disalin**. Minta agent: *"Terjemahkan mockup ini ke komponen shadcn-vue yang setara, cek lewat MCP shadcn, pakai token warna tema."*
+Kalau kamu mendapat mockup dari Stitch atau Figma, atau contoh kode React (`className=`, `@radix-ui`, `lucide-react`), **jangan disalin**. Minta agent: *"Terjemahkan mockup ini ke komponen shadcn-vue yang setara, cek lewat MCP shadcn, pakai token warna tema."* Mockup Stitch resmi tiap halaman beserta pemetaan komponennya ada di `docs/DESIGN.md`.
 
 ## Saat backend berubah
 
