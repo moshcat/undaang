@@ -1,0 +1,163 @@
+{
+  "projectId": "12598551227702964802",
+  "title": "undaang",
+  "url": "https://stitch.google.com/projects/12598551227702964802",
+  "designSystem": {
+    "id": "assets/2ae5d46e3951417188d007d051c2edf2",
+    "displayName": "Undaang",
+    "source": ".stitch/DESIGN.md",
+    "primary": "#0069A8",
+    "font": "Inter",
+    "roundness": "ROUND_EIGHT",
+    "extraTokens": ["success #16A34A", "warning #D97706"]
+  },
+  "screens": [
+    {
+      "slug": "01-landing-desktop",
+      "id": "e5198e204dfc4eadbee12ba5f674692a",
+      "title": "Beranda - undaang",
+      "device": "DESKTOP",
+      "url": "https://stitch.google.com/projects/12598551227702964802?node-id=e5198e204dfc4eadbee12ba5f674692a"
+    },
+    {
+      "slug": "02-landing-mobile",
+      "id": "8e9ecc9df65a4d0a94c68092e580637b",
+      "title": "Beranda - undaang (Mobile)",
+      "device": "MOBILE",
+      "url": "https://stitch.google.com/projects/12598551227702964802?node-id=8e9ecc9df65a4d0a94c68092e580637b"
+    },
+    {
+      "slug": "03-login",
+      "id": "33588360d22d45e189b571d08b7b91d6",
+      "title": "Masuk - undaang",
+      "device": "DESKTOP",
+      "url": "https://stitch.google.com/projects/12598551227702964802?node-id=33588360d22d45e189b571d08b7b91d6"
+    },
+    {
+      "slug": "04-register",
+      "id": "23bb5a0255b447bd8e9ca451aac981b5",
+      "title": "Daftar - undaang",
+      "device": "DESKTOP",
+      "url": "https://stitch.google.com/projects/12598551227702964802?node-id=23bb5a0255b447bd8e9ca451aac981b5"
+    },
+    {
+      "slug": "05-invitations",
+      "id": "056de54afa5642ada0917e7e34aceaa1",
+      "title": "Undangan Saya - undaang",
+      "device": "DESKTOP",
+      "url": "https://stitch.google.com/projects/12598551227702964802?node-id=056de54afa5642ada0917e7e34aceaa1"
+    },
+    {
+      "slug": "06-create-invitation-dialog",
+      "id": "0b666b7e17a145a6b1055ce1a30d7333",
+      "title": "Buat Undangan Baru - undaang",
+      "device": "DESKTOP",
+      "url": "https://stitch.google.com/projects/12598551227702964802?node-id=0b666b7e17a145a6b1055ce1a30d7333"
+    },
+    {
+      "slug": "07-editor",
+      "id": "ec164b43fdd547438ce881b31b7d9dfe",
+      "title": "Editor Undangan - Raka & Sinta - undaang",
+      "device": "DESKTOP",
+      "url": "https://stitch.google.com/projects/12598551227702964802?node-id=ec164b43fdd547438ce881b31b7d9dfe"
+    },
+    {
+      "slug": "08-guests",
+      "id": "b9af91505bfc442b892e295085605ab0",
+      "title": "Daftar Tamu - undaang",
+      "device": "DESKTOP",
+      "url": "https://stitch.google.com/projects/12598551227702964802?node-id=b9af91505bfc442b892e295085605ab0"
+    },
+    {
+      "slug": "09-rsvps",
+      "id": "c6b6dfbe4ad6479e80eab624a369d121",
+      "title": "RSVP & Ucapan - undaang",
+      "device": "DESKTOP",
+      "url": "https://stitch.google.com/projects/12598551227702964802?node-id=c6b6dfbe4ad6479e80eab624a369d121"
+    },
+    {
+      "slug": "10-stats",
+      "id": "aa40f6b47e284ce9bcf9c38f3538d9f0",
+      "title": "Statistik - Raka & Sinta - undaang",
+      "device": "DESKTOP",
+      "url": "https://stitch.google.com/projects/12598551227702964802?node-id=aa40f6b47e284ce9bcf9c38f3538d9f0"
+    },
+    {
+      "slug": "11-upgrade",
+      "id": "d75af4d06d814552a445eada1f6dd6f2",
+      "title": "Upgrade Paket - Raka & Sinta - undaang",
+      "device": "DESKTOP",
+      "url": "https://stitch.google.com/projects/12598551227702964802?node-id=d75af4d06d814552a445eada1f6dd6f2"
+    },
+    {
+      "slug": "12-order-status",
+      "id": "c10076f5cc434d4fb7dfb1f09f83ae28",
+      "title": "Status Pembayaran - INV-20261025-0001 - undaang",
+      "device": "DESKTOP",
+      "url": "https://stitch.google.com/projects/12598551227702964802?node-id=c10076f5cc434d4fb7dfb1f09f83ae28"
+    },
+    {
+      "slug": "13-orders",
+      "id": "e3b6f45ab02e42a293771ed3365cd101",
+      "title": "Riwayat Transaksi - undaang",
+      "device": "DESKTOP",
+      "url": "https://stitch.google.com/projects/12598551227702964802?node-id=e3b6f45ab02e42a293771ed3365cd101"
+    },
+    {
+      "slug": "14-profile",
+      "id": "688ff2d938ad4fbab67d44a86744c951",
+      "title": "Profil - undaang",
+      "device": "DESKTOP",
+      "url": "https://stitch.google.com/projects/12598551227702964802?node-id=688ff2d938ad4fbab67d44a86744c951"
+    },
+    {
+      "slug": "15-invitation-cover",
+      "id": "cfbeaf6a81e3419b914c97bb484ffb2f",
+      "title": "Undangan Publik - Raka & Sinta (Cover)",
+      "device": "MOBILE",
+      "url": "https://stitch.google.com/projects/12598551227702964802?node-id=cfbeaf6a81e3419b914c97bb484ffb2f"
+    },
+    {
+      "slug": "16-invitation-content",
+      "id": "0fbcca4906c249aaa085c841afa1f27b",
+      "title": "Undangan Pernikahan - Raka & Sinta (Mobile)",
+      "device": "DESKTOP",
+      "url": "https://stitch.google.com/projects/12598551227702964802?node-id=0fbcca4906c249aaa085c841afa1f27b"
+    },
+    {
+      "slug": "17-invitation-unavailable",
+      "id": "26a363ff52db4a90b5a0d8d4bbb691ee",
+      "title": "Undangan Tidak Aktif - undaang",
+      "device": "DESKTOP",
+      "url": "https://stitch.google.com/projects/12598551227702964802?node-id=26a363ff52db4a90b5a0d8d4bbb691ee"
+    },
+    {
+      "slug": "18-admin-stats",
+      "id": "2bf486e849244ff8834ceb3d4aba80c4",
+      "title": "Statistik Sistem - Panel Admin - undaang",
+      "device": "DESKTOP",
+      "url": "https://stitch.google.com/projects/12598551227702964802?node-id=2bf486e849244ff8834ceb3d4aba80c4"
+    },
+    {
+      "slug": "19-admin-themes",
+      "id": "cf14af5126e44f1ea6f5e7370e73b9ac",
+      "title": "Katalog Tema - Panel Admin - undaang",
+      "device": "DESKTOP",
+      "url": "https://stitch.google.com/projects/12598551227702964802?node-id=cf14af5126e44f1ea6f5e7370e73b9ac"
+    },
+    {
+      "slug": "20-admin-orders",
+      "id": "080ab6fddabd44849329e3c40270ee39",
+      "title": "Panel Admin - Transaksi - undaang",
+      "device": "DESKTOP",
+      "url": "https://stitch.google.com/projects/12598551227702964802?node-id=080ab6fddabd44849329e3c40270ee39"
+    },
+    {
+      "slug": "21-admin-invitations",
+      "id": "82f6686d02b842dbaebf213de4043a32",
+      "title": "Semua Undangan - Panel Admin - undaang",
+      "device": "DESKTOP",
+      "url": "https://stitch.google.com/projects/12598551227702964802?node-id=82f6686d02b842dbaebf213de4043a32"
+    }
+  ]
+}
