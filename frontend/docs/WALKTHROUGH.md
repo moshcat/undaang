@@ -43,7 +43,6 @@ bun run dev       # biarkan terminal ini terbuka
 Buka `http://localhost:3000/health`. Kalau muncul `"status":"ok"`, backend sudah jalan. Buka juga `http://localhost:3000/docs` untuk melihat semua API dan mencobanya langsung lewat tombol "Try it out".
 
 **Frontend** (terminal 2):
-
 ```bash
 cd frontend
 bun install
@@ -126,9 +125,7 @@ Buka file-file ini berurutan dan baca komentarnya:
 7. `src/components/ui/`: komponen shadcn-vue. Dokumentasi tiap komponen ada di https://www.shadcn-vue.com/docs/components.
 
 ## Langkah 5: Membuat halaman pertamamu
-
 Contoh: tiket T-03, halaman Profil. Langkahnya sama untuk tiket lain.
-
 ```bash
 git checkout dev && git pull
 git checkout -b feature/T-03-profile
