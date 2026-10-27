@@ -1,10 +1,10 @@
 # Tiket frontend undaang
 
-Setiap tiket bisa disalin ke board Trello dengan kolom To Do, Doing, dan Done.
+Setiap tiket sudah menjadi issue di [GitHub Projects](https://github.com/users/moshcat/projects/5) dengan kolom To Do, Doing, dan Done.
 
 **Aturan main:**
 - Kerjakan tiket sesuai urutan dependensinya.
-- Satu tiket berarti satu branch `feature/T-xx-...` dan satu PR ke `dev`.
+- Satu tiket berarti satu branch `feat/T-xx-...` (bug: `fix/...`) dan satu PR ke `dev`.
 - Spesifikasi lengkap dan acceptance criteria (AC) ada di `BRIEF.md` pada bagian yang disebut di setiap tiket.
 
 ## Cara memakai prompt

@@ -177,6 +177,6 @@ Pelanggaran terhadap aturan di bawah membuat PR ditolak.
 
 ## Git
 
-- Branch dari `dev` dengan nama `feature/T-xx-nama-singkat`. PR ke `dev`, wajib di-review satu anggota lain. `main` hanya untuk rilis.
+- Branch dari `dev` dengan nama `feat/T-xx-nama-singkat` (perbaikan bug: `fix/nama-singkat`). PR ke `dev`, wajib di-review satu anggota lain. `main` hanya untuk rilis.
 - Commit kecil, satu perubahan logis per commit, format Conventional Commits. Contoh: `feat(guests): add guest table with search`, `fix(editor): keep event order after save`.
 - Jangan commit `node_modules`, `dist`, `.env`, atau file editor pribadi.
