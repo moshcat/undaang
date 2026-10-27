@@ -1,0 +1,3878 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "undaang API",
+    "version": "1.0.0"
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "admin",
+              "user"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "email",
+          "role",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "RegisterBody": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 8,
+            "maxLength": 72
+          }
+        },
+        "required": [
+          "name",
+          "email",
+          "password"
+        ]
+      },
+      "LoginBody": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 72
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "Theme": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "tier": {
+            "type": "string",
+            "enum": [
+              "free",
+              "basic",
+              "premium"
+            ]
+          },
+          "preview_url": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "defaults": {
+            "type": "object",
+            "properties": {
+              "primary_color": {
+                "type": "string"
+              },
+              "font": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "primary_color",
+              "font"
+            ]
+          },
+          "is_active": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "code",
+          "name",
+          "tier",
+          "preview_url",
+          "defaults",
+          "is_active",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "Invitation": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "owner_id": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "theme_id": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "published",
+              "suspended"
+            ]
+          },
+          "plan": {
+            "type": "string",
+            "enum": [
+              "free",
+              "basic",
+              "premium"
+            ]
+          },
+          "plan_expires_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "couple": {
+            "type": "object",
+            "properties": {
+              "groom": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "nickname": {
+                    "type": "string"
+                  },
+                  "parents": {
+                    "type": "string"
+                  },
+                  "photo_url": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "name",
+                  "nickname",
+                  "parents",
+                  "photo_url"
+                ]
+              },
+              "bride": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "nickname": {
+                    "type": "string"
+                  },
+                  "parents": {
+                    "type": "string"
+                  },
+                  "photo_url": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "name",
+                  "nickname",
+                  "parents",
+                  "photo_url"
+                ]
+              }
+            },
+            "required": [
+              "groom",
+              "bride"
+            ]
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "start_at": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "end_at": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "format": "date-time"
+                },
+                "venue": {
+                  "type": "string"
+                },
+                "address": {
+                  "type": "string"
+                },
+                "maps_url": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "id",
+                "type",
+                "start_at",
+                "end_at",
+                "venue",
+                "address",
+                "maps_url"
+              ]
+            }
+          },
+          "gallery": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "url": {
+                  "type": "string"
+                },
+                "caption": {
+                  "type": "string"
+                },
+                "order": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "url",
+                "caption",
+                "order"
+              ]
+            }
+          },
+          "stories": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "date": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "format": "date-time"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "body": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "date",
+                "title",
+                "body"
+              ]
+            }
+          },
+          "gift_accounts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "bank": {
+                  "type": "string"
+                },
+                "account_no": {
+                  "type": "string"
+                },
+                "account_name": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "bank",
+                "account_no",
+                "account_name"
+              ]
+            }
+          },
+          "settings": {
+            "type": "object",
+            "properties": {
+              "primary_color": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "music_url": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "show_wishes": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "primary_color",
+              "music_url",
+              "show_wishes"
+            ]
+          },
+          "view_count": {
+            "type": "number"
+          },
+          "limits": {
+            "type": "object",
+            "properties": {
+              "guest_quota": {
+                "type": "number"
+              },
+              "gallery_limit": {
+                "type": "number"
+              },
+              "theme_tiers": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "free",
+                    "basic",
+                    "premium"
+                  ]
+                }
+              },
+              "watermark": {
+                "type": "boolean"
+              },
+              "music": {
+                "type": "boolean"
+              },
+              "gift_accounts": {
+                "type": "boolean"
+              },
+              "csv_import": {
+                "type": "boolean"
+              },
+              "rsvp_export": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "guest_quota",
+              "gallery_limit",
+              "theme_tiers",
+              "watermark",
+              "music",
+              "gift_accounts",
+              "csv_import",
+              "rsvp_export"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "owner_id",
+          "slug",
+          "theme_id",
+          "status",
+          "plan",
+          "plan_expires_at",
+          "couple",
+          "events",
+          "gallery",
+          "stories",
+          "gift_accounts",
+          "settings",
+          "view_count",
+          "limits",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "CreateInvitationBody": {
+        "type": "object",
+        "properties": {
+          "slug": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 60,
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+            "example": "raka-dan-sinta"
+          },
+          "theme_id": {
+            "type": "string",
+            "pattern": "^[a-f\\d]{24}$/i",
+            "example": "6500a1b2c3d4e5f678905678"
+          },
+          "couple": {
+            "type": "object",
+            "properties": {
+              "groom": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "maxLength": 200,
+                    "default": ""
+                  },
+                  "nickname": {
+                    "type": "string",
+                    "maxLength": 100,
+                    "default": ""
+                  },
+                  "parents": {
+                    "type": "string",
+                    "maxLength": 400,
+                    "default": ""
+                  },
+                  "photo_url": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "format": "uri",
+                    "default": null
+                  }
+                }
+              },
+              "bride": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "maxLength": 200,
+                    "default": ""
+                  },
+                  "nickname": {
+                    "type": "string",
+                    "maxLength": 100,
+                    "default": ""
+                  },
+                  "parents": {
+                    "type": "string",
+                    "maxLength": 400,
+                    "default": ""
+                  },
+                  "photo_url": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "format": "uri",
+                    "default": null
+                  }
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "slug",
+          "theme_id"
+        ]
+      },
+      "UpdateInvitationBody": {
+        "type": "object",
+        "properties": {
+          "slug": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 60,
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+            "example": "raka-dan-sinta"
+          },
+          "theme_id": {
+            "type": "string",
+            "pattern": "^[a-f\\d]{24}$/i",
+            "example": "6500a1b2c3d4e5f678905678"
+          },
+          "couple": {
+            "type": "object",
+            "properties": {
+              "groom": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "maxLength": 200,
+                    "default": ""
+                  },
+                  "nickname": {
+                    "type": "string",
+                    "maxLength": 100,
+                    "default": ""
+                  },
+                  "parents": {
+                    "type": "string",
+                    "maxLength": 400,
+                    "default": ""
+                  },
+                  "photo_url": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "format": "uri",
+                    "default": null
+                  }
+                }
+              },
+              "bride": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "maxLength": 200,
+                    "default": ""
+                  },
+                  "nickname": {
+                    "type": "string",
+                    "maxLength": 100,
+                    "default": ""
+                  },
+                  "parents": {
+                    "type": "string",
+                    "maxLength": 400,
+                    "default": ""
+                  },
+                  "photo_url": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "format": "uri",
+                    "default": null
+                  }
+                }
+              }
+            }
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "akad",
+                    "pemberkatan",
+                    "resepsi"
+                  ]
+                },
+                "start_at": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "end_at": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "format": "date-time",
+                  "default": null
+                },
+                "venue": {
+                  "type": "string",
+                  "maxLength": 400
+                },
+                "address": {
+                  "type": "string",
+                  "maxLength": 1000,
+                  "default": ""
+                },
+                "maps_url": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "format": "uri",
+                  "default": null
+                }
+              },
+              "required": [
+                "type",
+                "start_at",
+                "venue"
+              ]
+            },
+            "maxItems": 10
+          },
+          "gallery": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "url": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "caption": {
+                  "type": "string",
+                  "maxLength": 400,
+                  "default": ""
+                },
+                "order": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "default": 0
+                }
+              },
+              "required": [
+                "url"
+              ]
+            },
+            "maxItems": 50
+          },
+          "stories": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "date": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "format": "date",
+                  "default": null
+                },
+                "title": {
+                  "type": "string",
+                  "maxLength": 200
+                },
+                "body": {
+                  "type": "string",
+                  "maxLength": 4000,
+                  "default": ""
+                }
+              },
+              "required": [
+                "title"
+              ]
+            },
+            "maxItems": 20
+          },
+          "gift_accounts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "bank": {
+                  "type": "string",
+                  "maxLength": 100
+                },
+                "account_no": {
+                  "type": "string",
+                  "pattern": "^[0-9 -]{4,40}$"
+                },
+                "account_name": {
+                  "type": "string",
+                  "maxLength": 200
+                }
+              },
+              "required": [
+                "bank",
+                "account_no",
+                "account_name"
+              ]
+            },
+            "maxItems": 5
+          },
+          "settings": {
+            "type": "object",
+            "properties": {
+              "primary_color": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "pattern": "^#[0-9a-f]{6}$/i",
+                "example": "#8a9a5b"
+              },
+              "music_url": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "uri"
+              },
+              "show_wishes": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      },
+      "PublishBody": {
+        "type": "object",
+        "properties": {
+          "published": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "published"
+        ]
+      },
+      "Guest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "invitation_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "phone": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "group": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "pax_quota": {
+            "type": "number"
+          },
+          "opened_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "personal_url": {
+            "type": "string"
+          },
+          "share_text": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "invitation_id",
+          "name",
+          "code",
+          "phone",
+          "group",
+          "pax_quota",
+          "opened_at",
+          "personal_url",
+          "share_text",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "GuestBody": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 200
+          },
+          "phone": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^\\+?[0-9 -]{6,20}$"
+          },
+          "group": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 100
+          },
+          "pax_quota": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 20
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "GuestUpdateBody": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 200
+          },
+          "phone": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^\\+?[0-9 -]{6,20}$"
+          },
+          "group": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "maxLength": 100
+          },
+          "pax_quota": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 20
+          }
+        }
+      },
+      "Rsvp": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "invitation_id": {
+            "type": "string"
+          },
+          "guest_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "attendance": {
+            "type": "string",
+            "enum": [
+              "hadir",
+              "tidak_hadir",
+              "ragu"
+            ]
+          },
+          "pax": {
+            "type": "number"
+          },
+          "message": {
+            "type": "string"
+          },
+          "is_hidden": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "invitation_id",
+          "guest_id",
+          "name",
+          "attendance",
+          "pax",
+          "message",
+          "is_hidden",
+          "createdAt"
+        ]
+      },
+      "InvitationStats": {
+        "type": "object",
+        "properties": {
+          "view_count": {
+            "type": "number"
+          },
+          "guests": {
+            "type": "object",
+            "properties": {
+              "total": {
+                "type": "number"
+              },
+              "opened": {
+                "type": "number"
+              },
+              "not_opened": {
+                "type": "number"
+              },
+              "responded": {
+                "type": "number"
+              },
+              "quota": {
+                "type": "number"
+              },
+              "remaining_quota": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "total",
+              "opened",
+              "not_opened",
+              "responded",
+              "quota",
+              "remaining_quota"
+            ]
+          },
+          "rsvps": {
+            "type": "object",
+            "properties": {
+              "total": {
+                "type": "number"
+              },
+              "by_attendance": {
+                "type": "object",
+                "properties": {
+                  "hadir": {
+                    "type": "object",
+                    "properties": {
+                      "count": {
+                        "type": "number"
+                      },
+                      "pax": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "count",
+                      "pax"
+                    ]
+                  },
+                  "tidak_hadir": {
+                    "type": "object",
+                    "properties": {
+                      "count": {
+                        "type": "number"
+                      },
+                      "pax": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "count",
+                      "pax"
+                    ]
+                  },
+                  "ragu": {
+                    "type": "object",
+                    "properties": {
+                      "count": {
+                        "type": "number"
+                      },
+                      "pax": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "count",
+                      "pax"
+                    ]
+                  }
+                },
+                "required": [
+                  "hadir",
+                  "tidak_hadir",
+                  "ragu"
+                ]
+              }
+            },
+            "required": [
+              "total",
+              "by_attendance"
+            ]
+          },
+          "estimated_attendance": {
+            "type": "number",
+            "description": "Sum of pax from \"hadir\" answers"
+          }
+        },
+        "required": [
+          "view_count",
+          "guests",
+          "rsvps",
+          "estimated_attendance"
+        ]
+      },
+      "PresignBody": {
+        "type": "object",
+        "properties": {
+          "invitation_id": {
+            "type": "string",
+            "pattern": "^[a-f\\d]{24}$/i",
+            "example": "6500a1b2c3d4e5f678905678"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "gallery",
+              "couple",
+              "music"
+            ]
+          },
+          "content_type": {
+            "type": "string"
+          },
+          "size": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "description": "File size in bytes"
+          }
+        },
+        "required": [
+          "invitation_id",
+          "kind",
+          "content_type",
+          "size"
+        ]
+      },
+      "PublicRsvp": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "attendance": {
+            "type": "string",
+            "enum": [
+              "hadir",
+              "tidak_hadir",
+              "ragu"
+            ]
+          },
+          "pax": {
+            "type": "number"
+          },
+          "message": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "attendance",
+          "pax",
+          "message",
+          "createdAt"
+        ]
+      },
+      "PublicRsvpBody": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 200
+          },
+          "attendance": {
+            "type": "string",
+            "enum": [
+              "hadir",
+              "tidak_hadir",
+              "ragu"
+            ]
+          },
+          "pax": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 20,
+            "default": 1
+          },
+          "message": {
+            "type": "string",
+            "maxLength": 1000,
+            "default": ""
+          },
+          "to": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9]{8}$"
+          }
+        },
+        "required": [
+          "attendance"
+        ]
+      },
+      "Order": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "invoice_number": {
+            "type": "string"
+          },
+          "user_id": {
+            "type": "string"
+          },
+          "invitation_id": {
+            "type": "string"
+          },
+          "plan": {
+            "type": "string",
+            "enum": [
+              "basic",
+              "premium"
+            ]
+          },
+          "amount": {
+            "type": "number"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "paid",
+              "expired",
+              "failed"
+            ]
+          },
+          "payment_url": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "payment_method": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "paid_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "invoice_number",
+          "user_id",
+          "invitation_id",
+          "plan",
+          "amount",
+          "status",
+          "payment_url",
+          "payment_method",
+          "paid_at",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "OrderBody": {
+        "type": "object",
+        "properties": {
+          "invitation_id": {
+            "type": "string",
+            "pattern": "^[a-f\\d]{24}$/i",
+            "example": "6500a1b2c3d4e5f678905678"
+          },
+          "plan": {
+            "type": "string",
+            "enum": [
+              "basic",
+              "premium"
+            ]
+          }
+        },
+        "required": [
+          "invitation_id",
+          "plan"
+        ]
+      },
+      "ThemeBody": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "maxLength": 50,
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "tier": {
+            "type": "string",
+            "enum": [
+              "free",
+              "basic",
+              "premium"
+            ]
+          },
+          "preview_url": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uri"
+          },
+          "defaults": {
+            "type": "object",
+            "properties": {
+              "primary_color": {
+                "type": "string",
+                "pattern": "^#[0-9a-f]{6}$/i",
+                "example": "#8a9a5b"
+              },
+              "font": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "maxLength": 100
+              }
+            },
+            "required": [
+              "primary_color"
+            ]
+          },
+          "is_active": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "code",
+          "name",
+          "tier"
+        ]
+      },
+      "ThemeUpdateBody": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "maxLength": 50,
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "tier": {
+            "type": "string",
+            "enum": [
+              "free",
+              "basic",
+              "premium"
+            ]
+          },
+          "preview_url": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uri"
+          },
+          "defaults": {
+            "type": "object",
+            "properties": {
+              "primary_color": {
+                "type": "string",
+                "pattern": "^#[0-9a-f]{6}$/i",
+                "example": "#8a9a5b"
+              },
+              "font": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "maxLength": 100
+              }
+            },
+            "required": [
+              "primary_color"
+            ]
+          },
+          "is_active": {
+            "type": "boolean"
+          }
+        }
+      },
+      "SuspendBody": {
+        "type": "object",
+        "properties": {
+          "suspended": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "suspended"
+        ]
+      }
+    },
+    "parameters": {}
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": [
+          "System"
+        ],
+        "summary": "Service health",
+        "responses": {
+          "200": {
+            "description": "Service is running",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "type": "string",
+                          "enum": [
+                            "ok"
+                          ]
+                        },
+                        "db": {
+                          "type": "string",
+                          "enum": [
+                            "up",
+                            "down"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "status",
+                        "db"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/register": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Register a new account",
+        "requestBody": {
+          "description": "Account data",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Account created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "user": {
+                          "$ref": "#/components/schemas/User"
+                        },
+                        "token": {
+                          "type": "string"
+                        },
+                        "token_type": {
+                          "type": "string",
+                          "enum": [
+                            "Bearer"
+                          ]
+                        },
+                        "expires_in": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "user",
+                        "token",
+                        "token_type",
+                        "expires_in"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "409": {
+            "description": "Email is already registered"
+          }
+        }
+      }
+    },
+    "/api/v1/auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Log in and receive a JWT",
+        "requestBody": {
+          "description": "Credentials",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Logged in",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "user": {
+                          "$ref": "#/components/schemas/User"
+                        },
+                        "token": {
+                          "type": "string"
+                        },
+                        "token_type": {
+                          "type": "string",
+                          "enum": [
+                            "Bearer"
+                          ]
+                        },
+                        "expires_in": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "user",
+                        "token",
+                        "token_type",
+                        "expires_in"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Wrong email or password"
+          },
+          "429": {
+            "description": "Too many requests"
+          }
+        }
+      }
+    },
+    "/api/v1/auth/me": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Current user profile",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Profile",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/User"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid token"
+          }
+        }
+      }
+    },
+    "/api/v1/themes": {
+      "get": {
+        "tags": [
+          "Themes"
+        ],
+        "summary": "Active theme catalog",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "free",
+                "basic",
+                "premium"
+              ]
+            },
+            "required": false,
+            "name": "tier",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Themes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Theme"
+                      }
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          }
+        }
+      }
+    },
+    "/api/v1/invitations": {
+      "get": {
+        "tags": [
+          "Invitations"
+        ],
+        "summary": "List my invitations",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            },
+            "required": false,
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            },
+            "required": false,
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "draft",
+                "published",
+                "suspended"
+              ]
+            },
+            "required": false,
+            "name": "status",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Invitations",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Invitation"
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "page": {
+                          "type": "number"
+                        },
+                        "limit": {
+                          "type": "number"
+                        },
+                        "total": {
+                          "type": "number"
+                        },
+                        "total_pages": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "page",
+                        "limit",
+                        "total",
+                        "total_pages"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid token"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Invitations"
+        ],
+        "summary": "Create a draft invitation on the free plan",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Slug, theme and couple names",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateInvitationBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Invitation created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Invitation"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Missing or invalid token"
+          },
+          "402": {
+            "description": "Feature is not included in the invitation plan"
+          },
+          "409": {
+            "description": "Slug is already taken"
+          }
+        }
+      }
+    },
+    "/api/v1/invitations/{id}": {
+      "get": {
+        "tags": [
+          "Invitations"
+        ],
+        "summary": "Invitation detail for the editor",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f\\d]{24}$/i",
+              "example": "6500a1b2c3d4e5f678905678"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Invitation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Invitation"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid token"
+          },
+          "403": {
+            "description": "Not the owner, or role not allowed"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Invitations"
+        ],
+        "summary": "Update content, theme and settings",
+        "description": "Each section sent replaces the stored one. Sections left out stay unchanged.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f\\d]{24}$/i",
+              "example": "6500a1b2c3d4e5f678905678"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "description": "Sections to replace",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateInvitationBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Invitation updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Invitation"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Missing or invalid token"
+          },
+          "402": {
+            "description": "Feature is not included in the invitation plan"
+          },
+          "403": {
+            "description": "Not the owner, or role not allowed"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "409": {
+            "description": "Slug is already taken"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Invitations"
+        ],
+        "summary": "Delete an invitation with its guests and RSVPs",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f\\d]{24}$/i",
+              "example": "6500a1b2c3d4e5f678905678"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid token"
+          },
+          "403": {
+            "description": "Not the owner, or role not allowed"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/api/v1/invitations/{id}/publish": {
+      "patch": {
+        "tags": [
+          "Invitations"
+        ],
+        "summary": "Publish or unpublish",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f\\d]{24}$/i",
+              "example": "6500a1b2c3d4e5f678905678"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "description": "Target state",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PublishBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Status changed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Invitation"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid token"
+          },
+          "402": {
+            "description": "Feature is not included in the invitation plan"
+          },
+          "403": {
+            "description": "Not the owner, or the invitation is suspended"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "422": {
+            "description": "Required data is incomplete"
+          }
+        }
+      }
+    },
+    "/api/v1/invitations/{id}/guests": {
+      "get": {
+        "tags": [
+          "Guests"
+        ],
+        "summary": "List guests with search, filter, sort and pagination",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f\\d]{24}$/i",
+              "example": "6500a1b2c3d4e5f678905678"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            },
+            "required": false,
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            },
+            "required": false,
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "maxLength": 100
+            },
+            "required": false,
+            "name": "q",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "maxLength": 50
+            },
+            "required": false,
+            "name": "group",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false"
+              ]
+            },
+            "required": false,
+            "name": "opened",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "name",
+                "-name",
+                "createdAt",
+                "-createdAt",
+                "opened_at",
+                "-opened_at"
+              ],
+              "default": "-createdAt"
+            },
+            "required": false,
+            "name": "sort",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Guests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Guest"
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "page": {
+                          "type": "number"
+                        },
+                        "limit": {
+                          "type": "number"
+                        },
+                        "total": {
+                          "type": "number"
+                        },
+                        "total_pages": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "page",
+                        "limit",
+                        "total",
+                        "total_pages"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid token"
+          },
+          "403": {
+            "description": "Not the owner, or role not allowed"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Guests"
+        ],
+        "summary": "Add a guest and generate the personal link",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f\\d]{24}$/i",
+              "example": "6500a1b2c3d4e5f678905678"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "description": "Guest",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GuestBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Guest added",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Guest"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Missing or invalid token"
+          },
+          "402": {
+            "description": "Guest quota of the plan is used up"
+          },
+          "403": {
+            "description": "Not the owner, or role not allowed"
+          }
+        }
+      }
+    },
+    "/api/v1/invitations/{id}/guests/import": {
+      "post": {
+        "tags": [
+          "Guests"
+        ],
+        "summary": "Import guests from a CSV file (premium)",
+        "description": "Columns: name (required), phone, group, pax_quota. The whole file is rejected when any row is invalid.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f\\d]{24}$/i",
+              "example": "6500a1b2c3d4e5f678905678"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": [
+                  "file"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Imported",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "imported": {
+                          "type": "number"
+                        },
+                        "guests": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/Guest"
+                          }
+                        }
+                      },
+                      "required": [
+                        "imported",
+                        "guests"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid CSV, with the failing rows in details"
+          },
+          "401": {
+            "description": "Missing or invalid token"
+          },
+          "402": {
+            "description": "Not a premium invitation, or the quota would be exceeded"
+          },
+          "403": {
+            "description": "Not the owner, or role not allowed"
+          }
+        }
+      }
+    },
+    "/api/v1/invitations/{id}/guests/{guestId}": {
+      "put": {
+        "tags": [
+          "Guests"
+        ],
+        "summary": "Update a guest",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f\\d]{24}$/i",
+              "example": "6500a1b2c3d4e5f678905678"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f\\d]{24}$/i",
+              "example": "6500a1b2c3d4e5f678905678"
+            },
+            "required": true,
+            "name": "guestId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "description": "Fields to change",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GuestUpdateBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Guest updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Guest"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Missing or invalid token"
+          },
+          "403": {
+            "description": "Not the owner, or role not allowed"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Guests"
+        ],
+        "summary": "Delete a guest",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f\\d]{24}$/i",
+              "example": "6500a1b2c3d4e5f678905678"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f\\d]{24}$/i",
+              "example": "6500a1b2c3d4e5f678905678"
+            },
+            "required": true,
+            "name": "guestId",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Guest deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid token"
+          },
+          "403": {
+            "description": "Not the owner, or role not allowed"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/api/v1/invitations/{id}/rsvps": {
+      "get": {
+        "tags": [
+          "RSVPs"
+        ],
+        "summary": "List RSVPs and wishes",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f\\d]{24}$/i",
+              "example": "6500a1b2c3d4e5f678905678"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            },
+            "required": false,
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            },
+            "required": false,
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "hadir",
+                "tidak_hadir",
+                "ragu"
+              ]
+            },
+            "required": false,
+            "name": "attendance",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "maxLength": 100
+            },
+            "required": false,
+            "name": "q",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false"
+              ]
+            },
+            "required": false,
+            "name": "hidden",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "RSVPs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Rsvp"
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "page": {
+                          "type": "number"
+                        },
+                        "limit": {
+                          "type": "number"
+                        },
+                        "total": {
+                          "type": "number"
+                        },
+                        "total_pages": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "page",
+                        "limit",
+                        "total",
+                        "total_pages"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid token"
+          },
+          "403": {
+            "description": "Not the owner, or role not allowed"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/api/v1/invitations/{id}/rsvps/export": {
+      "get": {
+        "tags": [
+          "RSVPs"
+        ],
+        "summary": "Download every RSVP as CSV (premium)",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f\\d]{24}$/i",
+              "example": "6500a1b2c3d4e5f678905678"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "CSV file",
+            "content": {
+              "text/csv": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid token"
+          },
+          "402": {
+            "description": "Feature is not included in the invitation plan"
+          },
+          "403": {
+            "description": "Not the owner, or role not allowed"
+          }
+        }
+      }
+    },
+    "/api/v1/invitations/{id}/rsvps/{rsvpId}": {
+      "patch": {
+        "tags": [
+          "RSVPs"
+        ],
+        "summary": "Hide or show a wish on the public page",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f\\d]{24}$/i",
+              "example": "6500a1b2c3d4e5f678905678"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f\\d]{24}$/i",
+              "example": "6500a1b2c3d4e5f678905678"
+            },
+            "required": true,
+            "name": "rsvpId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "description": "Visibility",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "is_hidden": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "is_hidden"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "RSVP updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Rsvp"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid token"
+          },
+          "403": {
+            "description": "Not the owner, or role not allowed"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/api/v1/invitations/{id}/stats": {
+      "get": {
+        "tags": [
+          "Invitations"
+        ],
+        "summary": "Dashboard statistics",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f\\d]{24}$/i",
+              "example": "6500a1b2c3d4e5f678905678"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Statistics",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/InvitationStats"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid token"
+          },
+          "403": {
+            "description": "Not the owner, or role not allowed"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/api/v1/uploads/presign": {
+      "post": {
+        "tags": [
+          "Uploads"
+        ],
+        "summary": "Get a presigned URL to upload a photo or song to R2",
+        "description": "PUT the file to upload_url with the same Content-Type. size must be the exact byte size of the file, because Content-Type and Content-Length are part of the signature. Then save public_url in the invitation.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "File to upload",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PresignBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Presigned upload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "upload_url": {
+                          "type": "string"
+                        },
+                        "public_url": {
+                          "type": "string"
+                        },
+                        "method": {
+                          "type": "string",
+                          "enum": [
+                            "PUT"
+                          ]
+                        },
+                        "headers": {
+                          "type": "object",
+                          "additionalProperties": {
+                            "type": "string"
+                          }
+                        },
+                        "expires_in": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "upload_url",
+                        "public_url",
+                        "method",
+                        "headers",
+                        "expires_in"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Missing or invalid token"
+          },
+          "402": {
+            "description": "Feature is not included in the invitation plan"
+          },
+          "403": {
+            "description": "Not the owner, or role not allowed"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "503": {
+            "description": "External service not configured"
+          }
+        }
+      }
+    },
+    "/api/v1/public/invitations/{slug}": {
+      "get": {
+        "tags": [
+          "Public"
+        ],
+        "summary": "Public invitation content",
+        "description": "Pass the guest code as ?to= to greet the guest by name. The first visit with a code records opened_at.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 60
+            },
+            "required": true,
+            "name": "slug",
+            "in": "path"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9]{8}$"
+            },
+            "required": false,
+            "name": "to",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Invitation page data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "additionalProperties": {}
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "404": {
+            "description": "Not found or not published"
+          },
+          "410": {
+            "description": "Invitation has expired"
+          }
+        }
+      }
+    },
+    "/api/v1/public/invitations/{slug}/rsvps": {
+      "post": {
+        "tags": [
+          "Public"
+        ],
+        "summary": "Send an RSVP and wish",
+        "description": "With a personal link code, the guest name and pax quota come from the guest list and a second submission updates the first (200).",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 60
+            },
+            "required": true,
+            "name": "slug",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "description": "RSVP",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PublicRsvpBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "RSVP updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/PublicRsvp"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "RSVP recorded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/PublicRsvp"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "410": {
+            "description": "Invitation has expired"
+          },
+          "429": {
+            "description": "Too many requests"
+          }
+        }
+      }
+    },
+    "/api/v1/orders": {
+      "post": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Order a plan and get the DOKU payment page",
+        "description": "The amount comes from the plan table on the server.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Invitation and plan",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Order created, redirect the user to payment_url",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Order"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Missing or invalid token"
+          },
+          "403": {
+            "description": "Not the owner, or role not allowed"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "502": {
+            "description": "Payment gateway error"
+          },
+          "503": {
+            "description": "External service not configured"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "My transaction history",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            },
+            "required": false,
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            },
+            "required": false,
+            "name": "limit",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Orders",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Order"
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "page": {
+                          "type": "number"
+                        },
+                        "limit": {
+                          "type": "number"
+                        },
+                        "total": {
+                          "type": "number"
+                        },
+                        "total_pages": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "page",
+                        "limit",
+                        "total",
+                        "total_pages"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid token"
+          }
+        }
+      }
+    },
+    "/api/v1/orders/{invoice}": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Order status, used by the page after payment",
+        "description": "While the order is pending, this also asks DOKU for the payment status (at most every 15 seconds), so the plan activates even when the HTTP notification is lost.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "maxLength": 64
+            },
+            "required": true,
+            "name": "invoice",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Order"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid token"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/api/v1/payments/doku/notify": {
+      "post": {
+        "tags": [
+          "Payments"
+        ],
+        "summary": "DOKU HTTP notification",
+        "description": "Called by DOKU, not by the frontend. The Signature header is verified against the raw body before anything is read. Register this path as the notification URL in the DOKU dashboard.",
+        "responses": {
+          "200": {
+            "description": "Notification processed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "result": {
+                          "type": "string",
+                          "enum": [
+                            "activated",
+                            "already_paid",
+                            "expired",
+                            "ignored"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "result"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Malformed body or amount mismatch"
+          },
+          "401": {
+            "description": "Signature is not valid"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/api/v1/admin/themes": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Add a theme to the catalog",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Theme",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ThemeBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Theme created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Theme"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Missing or invalid token"
+          },
+          "403": {
+            "description": "Not the owner, or role not allowed"
+          },
+          "409": {
+            "description": "Theme code already exists"
+          }
+        }
+      }
+    },
+    "/api/v1/admin/themes/{id}": {
+      "put": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Update a catalog theme",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f\\d]{24}$/i",
+              "example": "6500a1b2c3d4e5f678905678"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "description": "Fields to change",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ThemeUpdateBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Theme updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Theme"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "401": {
+            "description": "Missing or invalid token"
+          },
+          "403": {
+            "description": "Not the owner, or role not allowed"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "409": {
+            "description": "Theme code already exists"
+          }
+        }
+      }
+    },
+    "/api/v1/admin/stats": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "System statistics and revenue",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Statistics",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "users": {
+                          "type": "number"
+                        },
+                        "invitations": {
+                          "type": "object",
+                          "properties": {
+                            "total": {
+                              "type": "number"
+                            },
+                            "by_status": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "number"
+                              }
+                            },
+                            "paid": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "total",
+                            "by_status",
+                            "paid"
+                          ]
+                        },
+                        "revenue": {
+                          "type": "object",
+                          "properties": {
+                            "total": {
+                              "type": "number"
+                            },
+                            "paid_orders": {
+                              "type": "number"
+                            },
+                            "by_plan": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "object",
+                                "properties": {
+                                  "orders": {
+                                    "type": "number"
+                                  },
+                                  "amount": {
+                                    "type": "number"
+                                  }
+                                },
+                                "required": [
+                                  "orders",
+                                  "amount"
+                                ]
+                              }
+                            },
+                            "last_30_days": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "total",
+                            "paid_orders",
+                            "by_plan",
+                            "last_30_days"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "users",
+                        "invitations",
+                        "revenue"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid token"
+          },
+          "403": {
+            "description": "Not the owner, or role not allowed"
+          }
+        }
+      }
+    },
+    "/api/v1/admin/orders": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "All transactions",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            },
+            "required": false,
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            },
+            "required": false,
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "pending",
+                "paid",
+                "expired",
+                "failed"
+              ]
+            },
+            "required": false,
+            "name": "status",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Orders",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": {}
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "page": {
+                          "type": "number"
+                        },
+                        "limit": {
+                          "type": "number"
+                        },
+                        "total": {
+                          "type": "number"
+                        },
+                        "total_pages": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "page",
+                        "limit",
+                        "total",
+                        "total_pages"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid token"
+          },
+          "403": {
+            "description": "Not the owner, or role not allowed"
+          }
+        }
+      }
+    },
+    "/api/v1/admin/invitations": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "All invitations, searchable by slug",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            },
+            "required": false,
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            },
+            "required": false,
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "maxLength": 60
+            },
+            "required": false,
+            "name": "q",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "draft",
+                "published",
+                "suspended"
+              ]
+            },
+            "required": false,
+            "name": "status",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Invitations",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Invitation"
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "page": {
+                          "type": "number"
+                        },
+                        "limit": {
+                          "type": "number"
+                        },
+                        "total": {
+                          "type": "number"
+                        },
+                        "total_pages": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "page",
+                        "limit",
+                        "total",
+                        "total_pages"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid token"
+          },
+          "403": {
+            "description": "Not the owner, or role not allowed"
+          }
+        }
+      }
+    },
+    "/api/v1/admin/invitations/{id}/status": {
+      "patch": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Suspend or restore an invitation",
+        "description": "A restored invitation goes back to draft; the owner publishes it again.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f\\d]{24}$/i",
+              "example": "6500a1b2c3d4e5f678905678"
+            },
+            "required": true,
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "description": "Target state",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SuspendBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Status changed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Invitation"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid token"
+          },
+          "403": {
+            "description": "Not the owner, or role not allowed"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    }
+  },
+  "webhooks": {},
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ]
+}

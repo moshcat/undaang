@@ -21,8 +21,18 @@ bun run dev            # http://localhost:3000, dokumentasi di /docs
 | `bun run typecheck`               | TypeScript 7                                                   |
 | `bun run lint` / `bun run format` | ESLint dan Prettier                                            |
 | `bun run seed`                    | Membuat satu tema per tier dan admin. Aman dijalankan berulang |
+| `bun run export:api`              | Menulis `docs/api/openapi.json` dan koleksi Postman dari route |
 
 `bunfig.toml` memuat `src/shims/bun-v8.ts` sebelum kode lain. Tanpa shim ini, bson 7.3 crash saat di-import di Bun 1.3, jadi jalankan Bun dari folder `backend/` agar `bunfig.toml` terbaca.
+
+## Koleksi API (Postman / Yaak)
+
+`docs/api/undaang.postman_collection.json` (Postman Collection v2.1) dan `docs/api/openapi.json` dihasilkan dari definisi route yang sama dengan Swagger UI di `/docs`. Jalankan ulang `bun run export:api` setiap kali ada route yang berubah.
+
+- **Postman:** Import → pilih file koleksi. Jalankan _Log in and receive a JWT_ atau _Register a new account_, token otomatis tersimpan di variabel koleksi `token` dan dipakai semua request terproteksi.
+- **Yaak:** Import → pilih file koleksi yang sama (atau `openapi.json`). Yaak tidak menjalankan script Postman, jadi salin `data.token` dari respons login ke variabel `token`.
+
+Variabel `baseUrl` default `http://localhost:3000`; ganti ke URL cloudflared atau server deploy bila perlu. Query opsional dan placeholder `<string>` pada body/path perlu diisi sendiri.
 
 ## Environment
 
