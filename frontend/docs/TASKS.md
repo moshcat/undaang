@@ -83,6 +83,8 @@ Mobile-first, cek di 390px.
 ## T-03 · Halaman profil (Pandu)
 **FR:** FR-001 · **Butuh:** T-01 · **BRIEF:** 6.2 · **File:** `src/views/app/ProfileView.vue`
 
+**Status:** ✅ Selesai, merged ke `dev` (#34)
+
 **Prompt:**
 ```
 Kerjakan T-03: halaman profil read-only di src/views/app/ProfileView.vue sesuai BRIEF.md 6.2,
@@ -92,6 +94,8 @@ Tombol Keluar memanggil auth.logout() lalu router.push({ name: 'login' }).
 
 ## T-04 · Daftar undangan + buat undangan (Pandu)
 **FR:** FR-002, FR-003 · **Butuh:** T-01 · **BRIEF:** 6.3 · **File:** `src/views/app/InvitationsView.vue`, `src/components/invitations/*`, `src/composables/usePaginatedQuery.ts` (opsional)
+
+**Status:** 🔄 Revisi, lihat review di #35 (halaman terakhir kosong setelah hapus)
 
 **Prompt:**
 ```
