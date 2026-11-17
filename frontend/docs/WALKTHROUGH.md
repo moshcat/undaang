@@ -131,7 +131,7 @@ Contoh: tiket T-03, halaman Profil. Langkahnya sama untuk tiket lain.
 
 ```bash
 git checkout dev && git pull
-git checkout -b feature/T-03-profile
+git checkout -b feat/T-03-profile
 ```
 
 1. Buka `src/views/app/ProfileView.vue`. Saat ini isinya `TodoPlaceholder`.
@@ -151,7 +151,7 @@ git checkout -b feature/T-03-profile
    ```bash
    git add -A
    git commit -m "feat(profile): show account details"
-   git push -u origin feature/T-03-profile
+   git push -u origin feat/T-03-profile
    ```
 7. Buka Pull Request ke **`dev`** di GitHub. Tulis deskripsinya: apa yang dibuat, screenshot desktop dan mobile, serta checklist Definition of Done dari `AGENTS.md`. Minta satu orang me-review.
 
